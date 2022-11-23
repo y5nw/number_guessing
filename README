@@ -1,0 +1,3 @@
+This is a simple number guessing game. The instructions are hopefully
+intuitive enough that documentation is not needed. The readline library
+is needed for this game, and I may consider moving to ncurses someday.
