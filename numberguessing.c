@@ -1,4 +1,5 @@
 #include <errno.h>
+#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -20,11 +21,11 @@ struct mentrydef {
 
 static struct leveldef levels[] = {
 	{1, 10, 8},
-	{1, 12, 8},
-	{1, 30, 15},
-	{1, 30, 12},
-	{1, 10, 3},
-	{1, 50, 30},
+	{1, 20, 8},
+	{1, 30, 8},
+	{1, 50, 8},
+	{1, 10, 5},
+	{1, 60, 6},
 	{0, 0, 0},
 };
 
@@ -46,7 +47,8 @@ int main(int argc, char **argv) {
 		printf("There are %zd level(s). Enter the number of the level to start.\n", nlevels);
 		for (i = 0; i < nlevels; i++) {
 			struct leveldef l = levels[i];
-			printf("[%zd] Range: (%d, %d); %zd attempt(s)\n", i+1, l.min, l.max, l.nattempts);
+			int min = l.min, max = l.max;
+			printf("[%zd] Range: integer in the interval [%d, %d]; %zd attempt(s); log2|I| = %f\n", i+1, min, max, l.nattempts, log2(max-min+1));
 		}
 		printf("Additionally, the following command(s) are available:\n");
 		for (i = 0; mentries[i].cb; i++)
@@ -80,7 +82,7 @@ int main(int argc, char **argv) {
 			int min = level.min, max = level.max;
 			int val = rand()%(max-min)+min;
 			size_t nattempts = level.nattempts;
-			printf("You need to guess a number in the interval (%d, %d).\n", min, max);
+			printf("You need to guess an integer in the interval [%d, %d].\n", min, max);
 			while (nattempts) {
 				printf("You have %zd attempt(s) left.\n", nattempts);
 				s = readline("Guess the number: ");
@@ -90,7 +92,7 @@ int main(int argc, char **argv) {
 				}
 				int input = strtol(s, &p, 10);
 				if (*p) {
-					printf("Input is not a number.\n");
+					printf("Input is not an integer.\n");
 				} else if (input < min || input > max) {
 					printf("Input out of range.\n");
 				} else if (input == val) {
