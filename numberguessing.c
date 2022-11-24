@@ -21,11 +21,14 @@ struct mentrydef {
 
 static struct leveldef levels[] = {
 	{1, 10, 8},
-	{1, 20, 8},
-	{1, 30, 8},
-	{1, 50, 8},
-	{1, 10, 5},
-	{1, 60, 6},
+	{0, 30, 9},
+	{-50, 50, 10},
+	{-100, 125, 11},
+	{-250, 350, 12},
+	{-150, 275, 11},
+	{-100, 200, 10},
+	{-200, 300, 9},
+	{-63, 191, 8},
 	{0, 0, 0},
 };
 
@@ -48,7 +51,7 @@ int main(int argc, char **argv) {
 		for (i = 0; i < nlevels; i++) {
 			struct leveldef l = levels[i];
 			int min = l.min, max = l.max;
-			printf("[%zd] Range: integer in the interval [%d, %d]; %zd attempt(s); log2|I| = %f\n", i+1, min, max, l.nattempts, log2(max-min+1));
+			printf("[%zd] Range: integer in the interval [%d, %d]; %zd attempt(s); log2(|I|+1) = %5.3f\n", i+1, min, max, l.nattempts, log2(max-min+2));
 		}
 		printf("Additionally, the following command(s) are available:\n");
 		for (i = 0; mentries[i].cb; i++)
